@@ -128,6 +128,8 @@ def get_item_by_id(item_id: int, user_email: str = None):
 # Add a new wardrobe item
 ## If item is created as 'Needs Wash', also store it in dirty_items collection.
 def add_item(name: str, category: str, status: str, color: str, item_type: str, user_email: str = None):
+    if not isinstance(user_email, str) or not user_email.strip():
+        raise ValueError("User email is required for wardrobe items")
     # Validate that color is provided and not just whitespace
     if not color or not color.strip():
         raise ValueError("Color is required for wardrobe item")
@@ -170,10 +172,11 @@ def add_item(name: str, category: str, status: str, color: str, item_type: str, 
 # If item is created as "Needs Wash" -> add to dirty collection
     if str(status).lower() == "needs wash":
         dirty_col.update_one(
-            {"item_id": new_id},
+            {"item_id": new_id, "user_email": user_email},
             {
                 "$set": {
                     "item_id": new_id,
+                    "user_email": user_email,
                     "marked_at": datetime.utcnow(),
                 }
             },
@@ -185,10 +188,10 @@ def add_item(name: str, category: str, status: str, color: str, item_type: str, 
 # Update item status between 'Clean' and 'Needs Wash'
 ## Also keep dirty_items collection in sync
 def update_item_status(item_id: int, user_email: str = None):
+    if not isinstance(user_email, str) or not user_email.strip():
+        return None
 # Find item in main collection
-    query = {"id": int(item_id)}
-    if user_email:
-        query["user_email"] = user_email
+    query = {"id": int(item_id), "user_email": user_email}
     
     doc = wardrobe_col.find_one(query)
     if not doc:
@@ -199,7 +202,7 @@ def update_item_status(item_id: int, user_email: str = None):
     
     # Initialize wear_count if missing (for items added before this feature)
     if "wear_count" not in doc:
-        wardrobe_col.update_one({"id": int(item_id)}, {"$set": {"wear_count": 0}})
+        wardrobe_col.update_one(query, {"$set": {"wear_count": 0}})
 
     if current_status == "clean":
 # Mark item as dirty
@@ -209,10 +212,11 @@ def update_item_status(item_id: int, user_email: str = None):
 
 # Add or update record in dirty_items
         dirty_col.update_one(
-            {"item_id": int(item_id)},
+            {"item_id": int(item_id), "user_email": user_email},
             {
                 "$set": {
                     "item_id": int(item_id),
+                    "user_email": user_email,
                     "marked_at": datetime.utcnow(),
                 }
             },
@@ -226,7 +230,7 @@ def update_item_status(item_id: int, user_email: str = None):
         last_worn_at = None
 
 # Remove item from dirty_items when it becomes clean
-        dirty_col.delete_one({"item_id": int(item_id)})
+        dirty_col.delete_one({"item_id": int(item_id), "user_email": user_email})
 
 # Update status and wear_count in main wardrobe collection
     wardrobe_col.update_one(
@@ -284,12 +288,15 @@ def record_outfit_worn(outfit_items, user_email: str = None):
         )
 
 
-def refresh_dirty_items_by_days(days_until_dirty: int):
+def refresh_dirty_items_by_days(days_until_dirty: int, user_email: str):
     """Auto-mark items as "Needs Wash" when last_worn_at is older than the threshold.
 
     Called opportunistically (e.g., when loading wardrobe or generating an outfit)
     so the UI stays in sync without a background scheduler.
     """
+    if not isinstance(user_email, str) or not user_email.strip():
+        raise ValueError("A valid user_email is required")
+
     try:
         threshold_days = int(days_until_dirty)
     except Exception:
@@ -299,7 +306,11 @@ def refresh_dirty_items_by_days(days_until_dirty: int):
         return
 
     now = datetime.utcnow()
-    docs = list(wardrobe_col.find({"status": {"$regex": "^clean$", "$options": "i"}}))
+    wardrobe_query = {
+        "user_email": user_email,
+        "status": {"$regex": "^clean$", "$options": "i"},
+    }
+    docs = list(wardrobe_col.find(wardrobe_query))
 
     for doc in docs:
         last = doc.get("last_worn_at")
@@ -313,13 +324,20 @@ def refresh_dirty_items_by_days(days_until_dirty: int):
         age_days = (now - last).days
         if age_days >= threshold_days:
             item_id = int(doc.get("id"))
+            item_query = {"id": item_id, "user_email": user_email}
             wardrobe_col.update_one(
-                {"id": item_id},
+                item_query,
                 {"$set": {"status": "Needs Wash"}},
             )
             dirty_col.update_one(
-                {"item_id": item_id},
-                {"$set": {"item_id": item_id, "marked_at": now}},
+                {"item_id": item_id, "user_email": user_email},
+                {
+                    "$set": {
+                        "item_id": item_id,
+                        "user_email": user_email,
+                        "marked_at": now,
+                    }
+                },
                 upsert=True,
             )
 
@@ -355,13 +373,13 @@ def update_item(item_id: int, data: dict, user_email: str = None):
 # Delete item from wardrobe (and dirty_items if applicable)
 def delete_item(item_id: int, user_email: str = None) -> bool:
     """Delete a wardrobe item for a specific user."""
-    query = {"id": int(item_id)}
-    if user_email:
-        query["user_email"] = user_email
+    if not isinstance(user_email, str) or not user_email.strip():
+        return False
+    query = {"id": int(item_id), "user_email": user_email}
     
 # Remove item from main collection
     result = wardrobe_col.delete_one(query)
 # Also clean up from dirty_items (if it was marked as dirty)
-    dirty_col.delete_one({"item_id": int(item_id)})
+    dirty_col.delete_one({"item_id": int(item_id), "user_email": user_email})
 # Return True if something was actually deleted
     return result.deleted_count > 0

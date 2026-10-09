@@ -84,7 +84,10 @@ def wardrobe_data(current_user):
         user = get_user_by_email(current_user)
         days_until_dirty = user.get('days_until_dirty') if user else None
         if days_until_dirty is not None:
-            refresh_dirty_items_by_days(int(days_until_dirty))
+            refresh_dirty_items_by_days(
+                int(days_until_dirty),
+                user_email=current_user,
+            )
     except Exception:
         pass
 

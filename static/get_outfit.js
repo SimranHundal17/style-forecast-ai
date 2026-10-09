@@ -3,13 +3,6 @@
 // ======================================================
 // Purpose: handle location autocomplete, optional browser geolocation,
 // outfit generation via server API, preview rendering, and saving to history.
-// Exam notes:
-// - Autocomplete is debounced (250ms) to avoid excessive API calls while typing.
-// - All fetch calls include `{ credentials: "include" }` so server-side session/JWT cookies
-//   are sent with requests (important for authenticated endpoints).
-// - Server responses used here are expected to include fields like:
-//     { temp, condition, weather, outfit: Array<object|string>, source?, explanation?, error? }
-// - Like = save (POST to server), Dislike = regenerate (clicks generate again).
 // Key DOM IDs: `locationInput`, `locationSuggestions`, `generateOutfitBtn`,
 // `loadingSpinner`, `outfitPreview`, `feedbackButtons`, `likeBtn`, `dislikeBtn`.
 

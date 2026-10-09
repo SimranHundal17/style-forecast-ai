@@ -2,15 +2,6 @@
    static/plan_ahead.js — Plan-Ahead page client behavior
    ===========================================================
    Purpose: Allow users to plan outfits across single or multi-day ranges.
-   Key concepts (exam notes):
-   - Dates are represented as ISO date strings (YYYY-MM-DD) when stored and
-     compared. Be mindful of local time vs UTC when converting Date objects.
-   - savedPlans: the source of truth from the backend (persisted).
-   - tempPlans: ephemeral plans generated during the session (not saved until
-     user confirms). UI shows slider only for generated (temp) multi-day plans.
-   - Slider is used only during generation; saved days always open single view.
-   - Weather gaps: when the server cannot provide a forecast for a date,
-     the UI marks the day as missingWeather and asks the user to select manually.
    - Server endpoints used by this file (examples):
      * GET /plan/plans -> [ { date, id, outfit, weather, ... } ]
      * POST /plan/create -> returns created plan(s) array

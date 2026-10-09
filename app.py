@@ -34,13 +34,24 @@ from dotenv import load_dotenv
 _HERE = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(dotenv_path=os.path.join(_HERE, ".env"), override=True)
 
+_SESSION_SECRET = os.getenv("SECRET_KEY")
+_JWT_SECRET = os.getenv("JWT_SECRET_KEY")
+for _secret_name, _secret_value in (
+    ("SECRET_KEY", _SESSION_SECRET),
+    ("JWT_SECRET_KEY", _JWT_SECRET),
+):
+    if not _secret_value or len(_secret_value) < 32:
+        raise RuntimeError(f"{_secret_name} must be set to at least 32 characters")
+if _SESSION_SECRET == _JWT_SECRET:
+    raise RuntimeError("SECRET_KEY and JWT_SECRET_KEY must be different")
+
 # Now import db after env vars are loaded
 from utils.db import db   # initializes MongoDB connection
 
 from flask import Flask, redirect, url_for  # Flask framework and redirect utilities
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = _SESSION_SECRET
 
 # Store API key in Flask config for use in routes
 app.config["OPENWEATHER_API_KEY"] = os.getenv("OPENWEATHER_API_KEY")
@@ -91,4 +102,5 @@ def index_redirect():
 # RUN THE APPLICATION
 # =====================================================
 if __name__ == "__main__":
-    app.run(debug=True)
+    debug_enabled = os.getenv("FLASK_DEBUG", "").lower() in {"1", "true", "yes"}
+    app.run(debug=debug_enabled)

@@ -58,7 +58,7 @@ def autocomplete(current_user):
 
     # Build the OpenWeather geocoding request URL. The `appid` must be set.
     url = (
-        "http://api.openweathermap.org/geo/1.0/direct"
+        "https://api.openweathermap.org/geo/1.0/direct"
         f"?q={query}&limit=5&appid={OPENWEATHER_API_KEY}"
     )
 
@@ -106,7 +106,7 @@ def reverse_geocode(current_user):
 
     # Call OpenWeather reverse geocoding endpoint for a single result
     url = (
-        "http://api.openweathermap.org/geo/1.0/reverse"
+        "https://api.openweathermap.org/geo/1.0/reverse"
         f"?lat={lat}&lon={lon}&limit=1&appid={OPENWEATHER_API_KEY}"
     )
     result = requests.get(url).json()
@@ -172,7 +172,10 @@ def api_generate_outfit(current_user):
         user = get_user_by_email(current_user)
         days_until_dirty = user.get('days_until_dirty') if user else None
         if days_until_dirty is not None:
-            refresh_dirty_items_by_days(int(days_until_dirty))
+            refresh_dirty_items_by_days(
+                int(days_until_dirty),
+                user_email=current_user,
+            )
     except Exception:
         pass
 

@@ -4,13 +4,6 @@
    Purpose: Styles for the Plan Ahead calendar, generation modal, and
    multi-day slider used during trip generation.
 
-   Exam notes:
-   - The calendar grid maps days to ISO date strings (YYYY-MM-DD) in JS;
-     CSS highlights selected/disabled/today states via classes (.selected, .disabled, .today).
-   - Slider is used only during generation (temporary state); saved plans are
-     displayed via the single-day modal view. Keep these styles separate.
-   - Autocomplete and modal sizing are important for small-screen usability.
-
    Sections:
    - Layout & header, top controls
    - Calendar grid and day states

@@ -3,10 +3,6 @@
    ========================================
    Purpose: styles for the Get Outfit page, including the generate control,
    weather summary, location autocomplete, and outfit preview chips.
-   Exam notes:
-   - Keep visual hierarchy with `.outfit-card` and `.outfit-item` styles
-   - Autocomplete dropdown should be above other content and be keyboard-friendly
-   - Weather box presents quick weather summary used by generation logic
 ========================================= */
 
 /* Main card structure */

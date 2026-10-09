@@ -4,12 +4,6 @@
    Purpose: Centralized base styles, layout wrapper, typography, and
    shared design tokens used across pages (buttons, nav, spacing).
 
-   Exam notes:
-   - `.page-wrapper` is the canonical centered container used by pages.
-   - Animations (fadeInUp) are subtle and intended for visual continuity.
-   - `.btn-purple` is the primary CTA style used by several pages.
-   - Keep global transitions minimal to avoid performance impact in larger apps.
-   - Use high-contrast colors for key interactive states for accessibility.
    ============================================================ */
 * {
   box-sizing: border-box;
@@ -171,8 +165,6 @@ select.form-select, select.form-control, select {
    TYPOGRAPHY — type scale & brand tokens
    =========================================
    Purpose: Headings, paragraph styles, and small utility tokens (logo, app-name).
-   Exam notes: Ensure contrast ratios are acceptable and font sizes are consistent
-   across components for a predictable reading rhythm.
 */ 
 h1, .title {
   font-size: 2rem;

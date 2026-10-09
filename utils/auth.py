@@ -7,8 +7,10 @@ from functools import wraps
 import jwt
 import os
 
-# JWT secret key (use environment variable in production)
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'your-secret-key-change-in-production')
+# JWT secret key
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+if not JWT_SECRET_KEY or len(JWT_SECRET_KEY) < 32:
+    raise RuntimeError("JWT_SECRET_KEY must be set to at least 32 characters")
 JWT_ALGORITHM = 'HS256'
 
 
