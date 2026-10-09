@@ -4,31 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Style Forecast</title>
+
+  <!-- Bootstrap CSS for layout and styling -->
   <link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-  crossorigin="anonymous"
-/>
-  <link rel="stylesheet" href="css/style.css">
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- My global and page-specific styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
 
-  <!-- Bootstrap Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <!-- Simple Bootstrap Navbar with gradient background -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, #6366f1, #8b5cf6);">
     <div class="container-fluid">
+      <!-- Brand name of the project -->
       <a class="navbar-brand fw-bold" href="#">☁️ Style Forecast</a>
-
-    <div class="ms-auto">
-      <a href="login.html" class="btn btn-light btn-sm">Login</a>      
-      </div>
     </div>
   </nav>
 
   <div class="intro-container">
+    <!-- Main title and subtitle -->
     <h1>☁️ Style Forecast</h1>
     <p>Your personal weather-aware wardrobe assistant.</p>
-    <!-- Bootstrap Alert -->
+
+    <!-- Bootstrap alert to show demo info -->
     <div class="container mt-3">
       <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
         <strong>Heads up!</strong> You’re viewing a demo version. More features coming soon!
@@ -36,6 +40,7 @@
       </div>
     </div>
 
+    <!-- Feature cards: simple static grid with icons -->
     <div class="features">
       <div class="feature-card">
         👕 <h3>Digital Wardrobe</h3>
@@ -50,7 +55,7 @@
         <p>AI-powered color coordination for stylish outfits.</p>
       </div>
       <div class="feature-card">
-        🧳 <h3>Trip Planner</h3>
+        🧳 <h3>Trip Planning Ahead of Time</h3>
         <p>Plan outfits for your trips with weather forecasts.</p>
       </div>
       <div class="feature-card">
@@ -63,10 +68,11 @@
       </div>
     </div>
 
-    <button class="get-started-btn" onclick="location.href='login.html'"> Get Started ✨</button>
+    <!-- Button that sends user to login page -->
+    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg mt-4 get-started-btn">Get Started</a>
   </div>
 
-  <!-- Bootstrap JS Bundle -->
+  <!-- Bootstrap JS bundle (for alert close button and other components) -->
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

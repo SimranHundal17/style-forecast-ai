@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+  templates/get_outfit.html — Get Outfit page
+  Purpose: Allow the user to pick a location & occasion, generate outfits based on
+  weather, preview results, and save liked outfits to history.
+  Key DOM IDs: `#locationInput`, `#locationSuggestions`, `#generateOutfitBtn`,
+  `#outfitPreview`, `#weatherTemp`, `#weatherIcon`, `.outfit-item`, `#feedbackButtons`.
+  Behavior: Uses geolocation & debounced autocomplete; calls endpoints like
+  `/get_outfit/api/location/autocomplete`, `/get_outfit/api/location/reverse`,
+  `/get_outfit/api/get_outfit`, and `/get_outfit/api/save_outfit` via `static/get_outfit.js`.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Outfit - Style Forecast</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Project Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='get_outfit.css') }}">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, #6366f1, #8b5cf6);">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="{{ url_for('intro.intro') }}">☁️ Style Forecast</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('wardrobe.wardrobe') }}">Wardrobe</a></li>
+            <li class="nav-item"><a class="nav-link"
+                href="{{ url_for('accessories.accessories_page') }}">Accessories</a>
+            </li>
+            <li class="nav-item"><a class="nav-link active" href="{{ url_for('outfit.get_outfit_page') }}">Get
+                Outfit</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('history.outfit_history') }}">Outfit History</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('plan.plan_ahead_page') }}">Plan Ahead</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('profile.profile') }}">Profile</a></li>
+            <li class="nav-item"><a class="nav-link nav-logout" href="{{ url_for('auth.logout') }}">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="section">
+
+      <section class="card outfit-card">
+
+        <!-- HEADER -->
+        <div class="header-row">
+          <div>
+            <h1 class="title">Get Your Outfit</h1>
+            <p class="subtitle">Generate personalized outfit ideas using weather + occasion.</p>
+          </div>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-section">
+
+          <div class="mb-3 position-relative">
+            <label class="form-label fw-bold">📍 Location</label>
+            <input type="text" class="form-control" id="locationInput" placeholder="e.g., New Delhi">
+            <!-- Autocomplete suggestions will appear here -->
+            <div id="locationSuggestions" class="autocomplete-suggestions"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">🎯 Occasion</label>
+            <select class="form-select" id="occasionInput">
+              <option value="Casual">Casual</option>
+              <option value="Formal">Formal</option>
+              <option value="Party">Party</option>
+              <option value="Gym">Gym</option>
+              <option value="Rainy">Rainy</option>
+            </select>
+          </div>
+
+          <!-- AI badge: generation will use the LLM by default -->
+          <div class="mb-3 d-flex align-items-center gap-2">
+            <span class="badge bg-info text-dark">AI</span>
+            <small class="text-muted">Smart suggestions powered by AI</small>
+          </div>
+
+          <button id="generateOutfitBtn" class="add-item-button" disabled>
+            👗 Generate Outfit
+          </button>
+
+        </div>
+
+        <!-- WEATHER BOX -->
+        <div class="weather-box mt-4">
+          <div class="weather-left">
+            <div class="weather-icon" id="weatherIcon">☁️</div>
+            <div>
+              <h3 class="weather-temp" id="weatherTemp">--°C</h3>
+              <p class="weather-desc" id="weatherDesc">---</p>
+            </div>
+          </div>
+          <div class="weather-location" id="weatherLocation">📍 Select location</div>
+
+          <!-- ADD THIS HIDDEN ELEMENT -->
+          <div id="weatherFull" class="d-none"></div>
+        </div>
+
+        <!-- RESULTS (source + explanation + outfit items) -->
+        <section class="outfit-results mt-4" id="outfitResults" style="display:none;">
+          <!-- LOADING (kept inside results so it appears where outfit will render) -->
+          <div class="text-center my-3 d-none" id="loadingSpinner">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2">Generating outfit...</p>
+          </div>
+
+          <div class="outfit-meta-row">
+            <div class="outfit-source" id="outfitSource" style="display:none;">
+              <span class="badge bg-info text-dark">AI</span>
+              <span class="outfit-source-text">Generated by AI</span>
+            </div>
+          </div>
+
+          <!-- AI explanation / reasoning (populated when AI responds) -->
+          <div id="aiExplanation" class="ai-explanation" style="display:none;"></div>
+
+          <!-- OUTFIT PREVIEW -->
+          <div class="outfit-preview" id="outfitPreview"></div>
+        </section>
+
+        <!-- LIKE / DISLIKE -->
+        <div class="text-center mt-3" id="feedbackButtons" style="display:none;">
+          <button class="btn btn-success me-2" id="likeBtn">👍 Like</button>
+          <button class="btn btn-danger" id="dislikeBtn">👎 Dislike</button>
+        </div>
+
+
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p class="footer-text">© 2025 Style Forecast</p>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="{{ url_for('static', filename='get_outfit.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

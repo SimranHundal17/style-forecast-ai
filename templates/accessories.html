@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+  templates/accessories.html — Accessories page
+  Purpose: Manage accessory items (list, add, delete) and filter by category.
+  Key DOM IDs / classes: `#addAccessoryModal`, `.wardrobe-card`, `.wardrobe-item-card`,
+  `.filter-chip`, `.add-item-button`.
+  Behavior: Uses `static/accessories.js` for loading, filtering, add/remove actions
+  and relies on server-side routes to persist accessory data.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessories - Style Forecast</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Global + Wardrobe-consistent CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='accessories.css') }}">
+</head>
+
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, #6366f1, #8b5cf6);">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="{{ url_for('intro.intro') }}">☁️ Style Forecast</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('wardrobe.wardrobe') }}">Wardrobe</a></li>
+            <li class="nav-item"><a class="nav-link active"
+                href="{{ url_for('accessories.accessories_page') }}">Accessories</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('outfit.get_outfit_page') }}">Get Outfit</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('history.outfit_history') }}">Outfit History</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('plan.plan_ahead_page') }}">Plan Ahead</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('profile.profile') }}">Profile</a></li>
+            <li class="nav-item"><a class="nav-link nav-logout" href="{{ url_for('auth.logout') }}">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="section">
+      <section class="card wardrobe-card">
+
+        <!-- Header + Add Button -->
+        <div class="wardrobe-header-row">
+          <div class="wardrobe-header-text">
+            <h1 class="title">Accessories</h1>
+            <p class="subtitle">Manage your accessories collection</p>
+          </div>
+          <div class="wardrobe-header-action">
+            <button type="button" class="btn add-item-button btn-primary" data-bs-toggle="modal"
+              data-bs-target="#addAccessoryModal">
+              + Add Accessory
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-row">
+          <span class="filter-label">🔍 Filter:</span>
+          <button class="filter-chip filter-active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="Jewellery">Jewellery</button>
+          <button class="filter-chip" data-filter="Purse">Purse</button>
+          <button class="filter-chip" data-filter="Hat">Hat</button>
+          <button class="filter-chip" data-filter="Utility">Utility</button>
+          <button class="filter-chip" data-filter="Belt">Belt</button>
+          <button class="filter-chip" data-filter="Watch">Watch</button>
+          <button class="filter-chip" data-filter="Scarf">Scarf</button>
+          <button class="filter-chip" data-filter="Sunglasses">Sunglasses</button>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-accessories">
+          <div class="empty-state-icon">👜</div>
+          <div class="empty-state-title">No accessories yet</div>
+          <div class="empty-state-desc">Start by adding your first accessory.</div>
+          <button class="empty-state-button" data-bs-toggle="modal" data-bs-target="#addAccessoryModal">
+            + Add Accessory
+          </button>
+        </div>
+
+        <!-- Accessories Grid -->
+        <div class="wardrobe-items-section">
+          <div class="row g-3" id="accessories-grid"></div>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer-text">© 2025 Style Forecast</p>
+    </footer>
+  </div>
+
+  <!-- ADD ACCESSORY MODAL -->
+  <div class="modal fade" id="addAccessoryModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Add Accessory</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="addAccessoryForm">
+            <div class="mb-3">
+              <label class="form-label">Accessory Name</label>
+              <input type="text" id="accName" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Type</label>
+              <select id="accType" class="form-select" required>
+                <option value="Jewellery">Jewellery</option>
+                <option value="Purse">Purse</option>
+                <option value="Hat">Hat</option>
+                <option value="Utility">Utility</option>
+                <option value="Belt">Belt</option>
+                <option value="Watch">Watch</option>
+                <option value="Scarf">Scarf</option>
+                <option value="Sunglasses">Sunglasses</option>
+              </select>
+            </div>
+
+            <div class="modal-footer px-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-purple">Add Accessory</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT ACCESSORY MODAL -->
+  <div class="modal fade" id="editAccessoryModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Accessory</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="editAccessoryForm">
+            <input type="hidden" id="editAccId" />
+
+            <div class="mb-3">
+              <label class="form-label">Accessory Name</label>
+              <input type="text" id="editAccName" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Type</label>
+              <select id="editAccType" class="form-select" required>
+                <option value="Jewellery">Jewellery</option>
+                <option value="Purse">Purse</option>
+                <option value="Hat">Hat</option>
+                <option value="Utility">Utility</option>
+                <option value="Belt">Belt</option>
+                <option value="Watch">Watch</option>
+                <option value="Scarf">Scarf</option>
+                <option value="Sunglasses">Sunglasses</option>
+              </select>
+            </div>
+
+            <div class="modal-footer px-0">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-purple">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='accessories.js') }}"></script>
+</body>
+
+</html>

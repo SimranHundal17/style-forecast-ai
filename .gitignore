@@ -1,0 +1,50 @@
+# -----------------------
+# ENVIRONMENT VARIABLES
+# -----------------------
+.env
+*.env
+
+# -----------------------
+# PYTHON CACHE FILES
+# -----------------------
+__pycache__/
+model/__pycache__/
+routes/__pycache__/
+utils/__pycache__/
+
+*.pyc
+*.pyo
+*.pyd
+
+# -----------------------
+# VIRTUAL ENVIRONMENTS
+# -----------------------
+venv/
+env/
+ENV/
+.venv/
+
+# -----------------------
+# OS / SYSTEM FILES
+# -----------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -----------------------
+# EDITOR / IDE FILES
+# -----------------------
+.vscode/
+.idea/
+
+# -----------------------
+# LOGS
+# -----------------------
+*.log
+
+# -----------------------
+# BACKUP / TEMP FILES
+# -----------------------
+*.tmp
+*.swp
+*.bak

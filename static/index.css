@@ -1,0 +1,141 @@
+/* =========================================
+   INTRO PAGE STYLES
+========================================= */
+
+.intro-container {
+  display: flex;                /* put all elements in a vertical layout */
+  flex-direction: column;
+  align-items: center;          /* center horizontally */
+  justify-content: center;      /* center vertically */
+  min-height: 85vh;             /* almost full-screen height */
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: #fff;            /* white background like other pages */
+  border-radius: 1rem;          /* rounded corners on all 4 sides */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);  /* subtle shadow */
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;            /* center with spacing */
+  overflow-x: hidden;
+}
+
+.intro-container h1 {
+  font-size: 2.6rem;            /* big title */
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+  display: flex;                /* to place emoji and text nicely */
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cloud-icon {
+  font-size: 2.2rem;            /* (not used now, but for cloud icon size) */
+}
+
+.intro-container p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Responsive grid for feature cards */
+.features {
+  display: grid;
+  /* auto-fit helps cards wrap nicely on smaller screens */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 900px;             /* center and limit width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Each feature card box */
+.feature-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 140px;            /* keeps cards visually balanced */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover animation for card */
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+  margin: 0.4rem 0 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Magic "Get Started" button */
+.get-started-btn {
+  background: linear-gradient(90deg, #6366f1, #a855f7); /* nice gradient */
+  color: white;
+  border: none;
+  padding: 0.9rem 3rem;
+  font-size: 1rem;
+  border-radius: 9999px;        /* full pill shape */
+  cursor: pointer;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+/* Small sparkle emoji that moves */
+.get-started-btn::after {
+  content: "✨";                /* decorative sparkle */
+  position: absolute;
+  right: 1rem;
+  opacity: 0.8;
+  animation: sparkle 2s infinite linear; /* play animation forever */
+}
+
+/* Simple animation for sparkle */
+@keyframes sparkle {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-3px) rotate(20deg); opacity: 1; }
+}
+
+/* Slight zoom on hover */
+.get-started-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+/* ===============================
+   EXTRA SMALL SCREEN FIX (Fold)
+   =============================== */
+@media (max-width: 576px) {
+
+  .intro-container h1 {
+    font-size: 2.1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .intro-container p {
+    font-size: 1rem;
+  }
+
+  .get-started-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

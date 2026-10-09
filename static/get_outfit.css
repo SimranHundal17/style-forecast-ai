@@ -1,0 +1,367 @@
+/* =========================================
+   static/get_outfit.css — Get Outfit page styles
+   ========================================
+   Purpose: styles for the Get Outfit page, including the generate control,
+   weather summary, location autocomplete, and outfit preview chips.
+========================================= */
+
+/* Main card structure */
+.outfit-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Header area — page title and subtitle
+   Notes: Title uses prominent color and spacing; subtitle provides context for
+   the generate flow (location + occasion) */
+.header-row {
+  margin-bottom: 1.5rem;
+}
+
+.header-row .title {
+  font-size: 1.8rem;
+  color: #4338ca;
+  margin-bottom: 0.2rem;
+}
+
+.header-row .subtitle {
+  color: #6b7280;
+}
+
+/* Inputs container — location/autocomplete, occasion input, generate button
+   Keep spacing consistent with header and preview; inputs should be accessible */
+.input-section {
+  margin-bottom: 2rem;
+}
+
+/* Generate button — primary CTA for outfit generation
+   Uses a bold purple gradient in other files; ensure hover and focus states
+   are visible for keyboard users and touch devices. */
+.generate-btn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.generate-btn:hover {
+  background: #4f46e5;
+}
+
+/* Weather box — compact weather summary displayed after generation
+   Contains icon, temp, brief description, and location label. Icons provide
+   visual cue for conditions (Clear, Rain, Snow, etc.). Keep high contrast text
+   for readability. */
+.weather-box {
+  background: linear-gradient(90deg, #eef2ff, #f5f3ff);
+  border-radius: 1rem;
+  padding: 1.5rem 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.weather-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weather-icon {
+  font-size: 2.5rem;
+}
+
+.weather-temp {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #4f46e5;
+  margin: 0;
+}
+
+.weather-desc {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.weather-location {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+/* Outfit preview container — renders suggested items as chips/cards
+   Items are focusable and present clear affordances for saving or reacting. */
+.outfit-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Warnings/errors rendered inside the grid should span full width */
+.outfit-alert {
+  flex: 0 0 100%;
+  max-width: 760px;
+  margin: 0.25rem auto;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+/* Outfit chip/card — individual suggested clothing/accessory items
+   Hover and focus produce lift and a stronger border for clarity; consider
+   keyboard accessibility when adding interactive behaviors. */
+.outfit-item {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 0.9rem 1.1rem;
+  border: 2px solid #eef2ff;
+  font-size: 1.15rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  transition: 0.25s ease;
+  flex: 1 1 220px;
+  max-width: 360px;
+  min-height: 76px;
+}
+
+.outfit-item-icon {
+  flex: 0 0 auto;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outfit-item-info {
+  min-width: 0;
+}
+
+.outfit-item-info .fw-semibold {
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.outfit-item-info .text-muted {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Results meta (source badge + explanation) */
+.outfit-results {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Outfit preview container - center items properly */
+.outfit-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+#loadingSpinner {
+  padding: 0.5rem 0;
+}
+
+.outfit-meta-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.outfit-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.ai-explanation {
+  margin: 0.25rem auto 0.75rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+  text-align: center;
+  max-width: 720px;
+  line-height: 1.4;
+  /* Prevent layout jump when explanation length changes across regenerations */
+  height: 2.8em; /* exactly ~2 lines */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+}
+
+.ai-explanation.is-empty {
+  visibility: hidden;
+}
+
+.outfit-item:hover {
+  transform: translateY(-3px);
+  border-color: #6366f1;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+/* Loading spinner — communicates generation in progress; keep visible color
+   and avoid layout shifts when showing/hiding. */
+#loadingSpinner p {
+  color: #4f46e5;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .outfit-card {
+    padding: 1.5rem;
+  }
+
+  .weather-box {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .outfit-preview {
+    justify-content: stretch;
+  }
+
+  .outfit-item {
+    max-width: none;
+  }
+}
+
+/* Galaxy Fold and very small screens */
+@media (max-width: 360px) {
+  .outfit-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .input-section {
+    margin-bottom: 1rem;
+  }
+  
+  .header-row .title {
+    font-size: 1.4rem;
+  }
+  
+  /* Force select dropdowns to fit */
+  select.form-select, #occasionInput {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 0.85rem;
+    padding-right: 1.5rem !important;
+  }
+}
+
+/* Cards keep a stable max-width; layout wraps naturally. */
+
+/* Autocomplete dropdown — appears under location input with keyboard and
+   mouse operability. Ensure z-index keeps it above other UI components. */
+#locationSuggestions {
+    background: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background: #f0f0f0;
+}
+
+.autocomplete-item.error {
+    color: red;
+}
+
+.autocomplete-item.invalid {
+    color: #dc2626;
+    font-weight: 600;
+    background: #fee2e2;
+}
+
+.add-item-button {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;        
+  text-align: center;
+  display: block;
+}
+
+.add-item-button:hover {
+  background-color: #4f46e5;
+}
+
+.add-item-button:disabled,
+.add-item-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.add-item-button:disabled:hover {
+  background-color: #6366f1;
+}
+
+/* MOBILE — responsive tweaks for small screens: stack elements, reduce padding,
+   and center weather and header text for clearer display on phones */
+@media (max-width: 576px) {
+
+  /* Center header like Wardrobe & Accessories */
+  .header-row {
+    text-align: center;
+  }
+
+  .header-row .title {
+    text-align: center;
+  }
+
+  .header-row .subtitle {
+    text-align: center;
+  }
+
+  /* Improve weather box spacing on tiny screens */
+  .weather-box {
+    padding: 1.2rem 1rem;
+  }
+
+  .weather-location {
+    text-align: center;
+  }
+}
+

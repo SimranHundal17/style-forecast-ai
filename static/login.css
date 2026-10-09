@@ -1,0 +1,156 @@
+/* ============================================================
+   static/login.css — Login & Signup page styles
+   ============================================================
+   Purpose: Styles for authentication UI (login and signup). Key areas:
+   - Auth wrapper and centered card
+   - Branding / animation (subtle) and header typography
+   - Primary CTA and input styling
+   - Responsive rules for small screens (fold & mobile)
+
+   ============================================================ */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #eef2ff 0%, #f9fafb 100%);
+  padding: 2rem;
+  overflow-x: hidden;           /* prevent overflow */
+}
+
+/* AUTH CARD — centered container for the form
+   Purpose: provide a readable, focused form area with subtle elevation
+   and an entrance animation. Keep width constrained for legibility. */
+.auth-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 1rem;          /* consistent rounded corners */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* LOGO & MOTION — the auth logo receives a subtle float animation
+   Keep this animation light and optional; it is decorative and should not
+   distract or be essential to understanding the form content. */
+.auth-logo {
+  font-size: 2.5rem;
+  animation: floatCloud 3s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes floatCloud {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+} 
+
+.auth-title {
+  font-size: 1.8rem;
+  color: #4338ca;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* PRIMARY CTA — auth-button
+   Used for Login and Sign Up actions. It is full-width to be touch-friendly;
+   hover and focus states increase contrast and provide a clear affordance. */
+.auth-button {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  color: #fff;
+  padding: 0.9rem 2.2rem;
+  border-radius: 9999px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.auth-button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+} 
+
+.auth-footer {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.switch-link {
+  color: #6366f1;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.switch-link:hover {
+  text-decoration: underline;
+}
+
+.back-home-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.back-home-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.auth-input {
+  background-color: #f0f4ff;
+  border: 1px solid #d3d9ff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  transition: 0.2s ease;
+}
+
+.auth-input:focus {
+  background-color: white;
+  border-color: #668cff;
+  box-shadow: 0 0 4px rgba(102, 140, 255, 0.5);
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* RESPONSIVE — extra small screens (fold & small phones)
+   Notes: reduce padding and font sizes so the auth card fits smaller viewports
+   while preserving touch target sizes and readability. */
+@media (max-width: 576px) {
+
+  .auth-wrapper {
+    padding: 1.2rem;
+  }
+
+  .auth-card {
+    padding: 1.8rem 1.5rem;
+    border-radius: 1.2rem;
+  }
+
+  .auth-title {
+    font-size: 1.6rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .auth-logo {
+    font-size: 2.2rem;
+  }
+}

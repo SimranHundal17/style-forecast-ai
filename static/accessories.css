@@ -1,0 +1,244 @@
+/* =========================================
+   ACCESSORIES PAGE — Styles & Structure
+   ========================================
+   Purpose: Styles for the Accessories/Wardrobe page. Key areas:
+   - Main card layout and page header
+   - Filter chips (category), empty state, and item cards
+   - Touch-friendly mobile overrides and accessibility considerations
+   Exam notes: Interactive controls include transitions; maintain
+   clear visual hierarchy with .card and .wardrobe-item-card.
+========================================= */
+
+/* Main card — layout, spacing and shadow for page content */
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* Header area — page title and primary Add Item control
+   Notes: header uses flex layout, stacks on small screens for accessibility */
+.wardrobe-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wardrobe-header-text .title {
+  font-size: 1.8rem;
+  color: #4338ca;
+  margin-bottom: 0.2rem;
+}
+
+.add-item-button {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.add-item-button:hover {
+  background-color: #4f46e5;
+}
+
+/* Filters — category chips and active state
+   Notes: chips are pill-shaped and use .filter-active to indicate selection */
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.filter-chip {
+  background: #e5e7eb;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  background: #d1d5db;
+}
+
+.filter-active {
+  background: #6366f1;
+  color: white;
+}
+
+/* Empty state — friendly messaging and CTA when no items are available */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-desc {
+  margin-bottom: 1.2rem;
+}
+
+.empty-state-button {
+  background: #8b5cf6;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.empty-state-button:hover {
+  background: #7c3aed;
+}
+
+/* Item cards — compact presentation for each wardrobe accessory */
+.wardrobe-items-section {
+  margin-top: 3rem;
+}
+
+.wardrobe-item-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid #f0f2ff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.wardrobe-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.wardrobe-item-image {
+  font-size: 2rem;
+}
+
+.wardrobe-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #252552;
+}
+
+.wardrobe-item-meta {
+  font-size: 0.9rem;
+  color: #777aa5;
+}
+
+.wardrobe-item-btn {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wardrobe-item-btn:hover {
+  background: #e0e7ff;
+  transform: translateY(-2px);
+}
+
+/* Action buttons layout — keep consistent across pages (stacked buttons) */
+.wardrobe-item-actions {
+  flex-direction: column;
+}
+
+.wardrobe-item-actions .wardrobe-item-btn {
+  width: 100%;
+}
+
+/* ================================
+   MOBILE — small device overrides & touch optimizations
+   Ensure buttons and chips have accessible hit areas and stacked layout
+================================ */
+
+/* Small devices show better spacing */
+@media (max-width: 576px) {
+
+  /* Reduce side padding so content does not feel cramped */
+  .card {
+    padding: 1.2rem 1rem;
+  }
+
+  /* Stack header button properly on mobile */
+  .wardrobe-header-action {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  /* Make Add button full-width for touch usability */
+  .wardrobe-header-action button {
+    width: 100%;
+  }
+
+  /* Improve filter button touch size */
+  .filter-chip {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  /* Prevent ugly word-breaking inside buttons */
+  .add-item-button {
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+}
+
+/* MOBILE CONTROLS — header stacking and full-width action buttons for small screens */
+@media (max-width: 576px) {
+
+  .wardrobe-header-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .wardrobe-header-text {
+    text-align: center;
+  }
+
+  .wardrobe-header-action {
+    width: 100%;
+  }
+
+  .wardrobe-header-action .add-item-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,224 @@
+/* =========================================
+   WARDROBE PAGE
+   Styles for wardrobe main page and item cards
+========================================= */
+
+/* General card - wrapper for page content */
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* Header row with title and "Add Item" button */
+.wardrobe-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+.wardrobe-header-text .title {
+  font-size: 1.8rem;
+  color: #4338ca;
+  margin-bottom: 0.2rem;
+}
+
+/* Primary "Add Item" button */
+.add-item-button {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.add-item-button:hover {
+  background-color: #4f46e5;
+}
+
+/* Action buttons layout — keep consistent across pages (stacked buttons) */
+.wardrobe-item-actions {
+  flex-direction: column;
+}
+
+.wardrobe-item-actions .wardrobe-item-btn {
+  width: 100%;
+}
+
+/* Filters row (All, Casual, Gym, etc.) */
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;  /* filters go to the next line if needed */
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Filter chips (buttons) */
+.filter-chip {
+  background: #e5e7eb;
+  border: none;
+  border-radius: 9999px;    /* full pill shape */
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  background: #d1d5db;
+}
+
+/* Active filter state */
+.filter-active {
+  background: #6366f1;
+  color: white;
+}
+
+/* Empty state container ("No items yet") */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-desc {
+  margin-bottom: 1.2rem;
+}
+
+/* Button inside empty state */
+.empty-state-button {
+  background: #8b5cf6;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.empty-state-button:hover {
+  background: #7c3aed;
+}
+
+/* Section that holds all wardrobe item cards */
+.wardrobe-items-section {
+  margin-top: 3rem;
+}
+
+/* Single wardrobe item card */
+.wardrobe-item-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid #f0f2ff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect for item card */
+.wardrobe-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* Emoji / icon for the item */
+.wardrobe-item-image {
+  font-size: 2rem;
+}
+
+/* Item name */
+.wardrobe-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #252552;
+}
+
+/* Item meta text (category, color, status, etc.) */
+.wardrobe-item-meta {
+  font-size: 0.9rem;
+  color: #777aa5;
+}
+
+/* Small pill button on the item card (e.g. Mark as Worn) */
+.wardrobe-item-btn {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wardrobe-item-btn:hover {
+  background: #e0e7ff;
+  transform: translateY(-2px);
+}
+
+/* Make Bootstrap modal backdrop a bit darker */
+.modal-backdrop {
+  opacity: .65 !important; /* normal dim like accessories */
+}
+
+/* Round modal corners a bit */
+.modal-content {
+  border-radius: .8rem;
+}
+
+/* ===============================
+   MOBILE RESPONSIVENESS FIX
+   =============================== */
+/* ===============================
+   MOBILE RESPONSIVENESS FIX
+   =============================== */
+@media (max-width: 576px) {
+
+  .wardrobe-header-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .wardrobe-header-text {
+    text-align: center;
+  }
+
+  .wardrobe-header-action {
+    width: 100%;
+  }
+
+  .wardrobe-header-action .add-item-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,354 @@
+/* ============================================================
+   static/plan_ahead.css — Plan Ahead page styles
+   ============================================================
+   Purpose: Styles for the Plan Ahead calendar, generation modal, and
+   multi-day slider used during trip generation.
+
+   Sections:
+   - Layout & header, top controls
+   - Calendar grid and day states
+   - Autocomplete box
+   - Slider (generation UI)
+   - Responsive rules for small & extra-small devices
+   ============================================================ */
+.section {
+  padding: 2rem;
+}
+
+.wardrobe-card {
+  padding: 2rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* HEADER & PAGE TITLING — layout for title, subtitle and top controls
+   Notes: header is flexible for actions like date selectors and generating trips */
+.wardrobe-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: -4px;
+  color: #555;
+} 
+
+/* TOP CONTROLS — date selectors and action buttons
+   Includes planType selector and month/year controls; keep spacing clear
+   so users can pick ranges quickly. */
+.plan-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+#planType {
+  width: 150px !important;
+  flex-shrink: 0;
+}
+
+.date-selectors {
+  display: flex;
+  gap: 0.75rem;
+} 
+
+/* CALENDAR GRID — 7-column month view and day cell states
+   - `.calendar-day.disabled` denotes past dates and is not clickable
+   - `.selected` highlights saved outfits for future dates
+   - `.range` is used when the user selects an inclusive multi-day range
+   Keep hover and focus states accessible and avoid relying on color alone. */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.calendar-weekdays div {
+  padding: 6px 0;
+}
+
+.calendar-day {
+  padding: 12px 0;
+  text-align: center;
+  background: #f3f4f6;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  transition: 0.15s;
+}
+
+.calendar-day:hover {
+  background: #e0e7ff;
+}
+
+.calendar-day.disabled {
+  background: #e5e7eb;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.calendar-day.selected {
+  background: #6366f1;
+  color: white;
+}
+
+.calendar-day.range {
+  background: #c7d2fe;
+} 
+
+/* TODAY HIGHLIGHT — visually distinguishes today's date with an amber ring
+   Important for users to orient themselves on the calendar; ensure contrast and
+   don't rely solely on color for accessibility. */
+.calendar-day.today {
+  outline: 2px solid #f59e0b;     /* amber ring */
+  outline-offset: -2px;
+  font-weight: 700;
+} 
+
+/* AUTOCOMPLETE — dropdown styling for location suggestions
+   Notes: keep z-index and scrolling behavior predictable; items should be
+   keyboard-navigable and provide clear hover/focus states. */
+.autocomplete-box {
+  position: relative;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 2px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover {
+  background: #eef2ff;
+} 
+
+/* SLIDER — generation UI used only during multi-day generation
+   Notes:
+   - Slider slides correspond to dates in `sliderDates` and display tempPlans content
+   - Navigation dots and prev/next controls switch slides by translating the container
+   - Keep transitions short for quick feedback during multi-day generation */
+
+#sliderContainer {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 0 50px;
+  box-sizing: border-box;
+}
+
+/* Multi-day slider controls: overlay so they don't add vertical height */
+#sliderNav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  padding: 0 12px;
+  pointer-events: none; /* allow clicks only on buttons */
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+#sliderNav button {
+  pointer-events: auto;
+  opacity: 0.92;
+}
+
+.slider {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  transition: transform 0.35s ease-in-out, height 0.2s ease;
+}
+
+.slider-slide {
+  min-width: 100%;
+  max-width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.slider-dots span {
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 4px;
+} 
+
+.slider-dots {
+  margin-top: 10px;
+}
+
+/* OUTFIT PREVIEW */
+.outfit-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.outfit-item {
+  padding: 8px 14px;
+  background: #eef2ff;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.plan-outfit-loading {
+  /* Backward-compat alias (older JS used this class) */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+}
+
+/* BUTTONS */
+.btn-outline-danger {
+  border-width: 2px;
+}
+
+/* MODAL & SAVE/DELETE — modal sizing and button styling
+   - Modal center and maximum width selected for readable layouts on desktop
+   - Buttons and form controls are styled to fit inside the modal comfortably */
+#planModal .modal-dialog {
+  max-width: 850px;
+}
+
+@media (max-width: 768px) {
+  #planModal .modal-dialog {
+    max-width: 95%;
+    margin: auto;
+  }
+}
+
+/* RESPONSIVE — small & fold devices: stack controls and reduce spacing
+   Ensure touch targets remain large enough and content remains readable. */
+@media (max-width: 576px) {
+
+  /* Page padding */
+  .section {
+    padding: 1.2rem;
+  }
+
+  .wardrobe-card {
+    padding: 1.5rem 1.2rem;
+  }
+
+  /* Header alignment */
+  .wardrobe-header-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* Top controls stack */
+  .plan-top-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .date-selectors {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .calendar-wrapper {
+    width: 100%;
+  }
+
+  /* Calendar sizing */
+  .calendar-grid {
+    gap: 6px;
+  }
+
+  .calendar-day {
+    padding: 10px 0;
+    font-size: 0.85rem;
+  }
+
+  /* Modal padding */
+  #planModal .modal-body {
+    padding: 1rem;
+  }
+
+  /* Slider controls spacing */
+  #prevSlide,
+  #nextSlide {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  .slider-slide {
+    padding: 12px;
+  }
+
+  /* Outfit items wrap better */
+  .outfit-preview {
+    justify-content: center;
+  }
+
+  .outfit-item {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+}
+
+/* EXTRA SMALL DEVICES (Fold, small phones) */
+@media (max-width: 380px) {
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    padding: 8px 0;
+    font-size: 0.75rem;
+    border-radius: 8px;
+  }
+
+  .calendar-weekdays {
+    font-size: 0.7rem;
+  }
+}
